@@ -163,6 +163,7 @@
       ' &middot; listed ' + r.age_days + ' days ago &middot; ' + (r.on_watchlist ? 'on the watchlist' : 'below the watchlist floor') + '</p>' +
       '<div class="breakdown">' +
       '<div><span>TVL &times; 0.30</span><b>' + money(base) + '</b></div>' +
+      '<div><span>7d change (model)</span><b>' + pct(r.growth_used) + '</b></div>' +
       '<div><span>Momentum</span><b>&times;' + r.momentum.toFixed(2) + '</b></div>' +
       '<div><span>Maturity</span><b>&times;' + r.maturity.toFixed(2) + '</b></div>' +
       '<div><span>Breadth</span><b>&times;' + r.breadth.toFixed(2) + '</b></div>' +

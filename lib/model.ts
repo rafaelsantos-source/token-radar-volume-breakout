@@ -91,6 +91,8 @@ export interface BoardRow {
   change_7d: number | null;
   age_days: number;
   tier: 'breakout' | 'heating' | 'steady';
+  /** The seven-day change the model actually used, after clamping to [-70, +100]. */
+  growth_used: number;
   momentum: number;
   maturity: number;
   breadth: number;
@@ -191,6 +193,7 @@ export function scoreProtocol(
     change_7d: p.change_7d,
     age_days: age,
     tier,
+    growth_used: growth,
     momentum,
     maturity,
     breadth,
