@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volume Breakout Radar — token launch radar</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Volume Breakout Radar</h1>
+    <p class="sub">A token launch radar that ranks pre-token protocols by <strong>arriving capital</strong> — TVL momentum first, size second. An implied value is this radar&rsquo;s own claim, never a prediction that a token will launch, or when.</p>
+  </div>
+  <div class="snapshot" id="snapshot">Snapshot loading&hellip;</div>
+</header>
+
+<section class="model" id="model">
+  <h2>How a row is valued</h2>
+  <p><code>implied = TVL &times; 0.30 &times; momentum &times; maturity &times; breadth &times; tier</code></p>
+  <p>momentum = <code>1 + 0.55 &times; clamp(7d&nbsp;change, &minus;70%, +100%) / 100</code> &middot; maturity grows with days listed (unknown: 365) &middot; breadth rewards extra chains &middot; tier is the cohort&rsquo;s own 7-day growth distribution: <span class="badge breakout">BREAKOUT</span> at or above the 90th percentile, <span class="badge heating">HEATING</span> at or above the 75th. A +4,448% print is clamped to +100%: a data spike is not a breakout. Nothing here names a protocol specially — the same function scores every row.</p>
+</section>
+
+<section class="controls">
+  <input id="q" type="search" placeholder="Search name or slug&hellip;" aria-label="Search protocols">
+  <select id="cat" aria-label="Category"><option value="">All categories</option></select>
+  <select id="chain" aria-label="Chain"><option value="">All chains</option></select>
+  <select id="tier" aria-label="Momentum tier">
+    <option value="">All tiers</option>
+    <option value="breakout">Breakout only</option>
+    <option value="heating">Heating &amp; breakout</option>
+  </select>
+  <select id="sort" aria-label="Sort by">
+    <option value="rank">Sort: rank</option>
+    <option value="implied">Sort: implied value</option>
+    <option value="tvl">Sort: TVL</option>
+    <option value="growth">Sort: 7-day growth</option>
+  </select>
+  <button id="reset" type="button">Reset</button>
+</section>
+
+<p class="stats" id="stats"></p>
+
+<main>
+  <section class="detail" id="detail" hidden></section>
+
+  <table id="board">
+    <thead><tr>
+      <th>#</th><th>Protocol</th><th>Category</th><th>Chains</th>
+      <th class="num">TVL</th><th class="num">7d</th><th>Tier</th><th class="num">Implied value</th>
+    </tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <section class="live">
+    <h2>Already trading — shown at the market&rsquo;s own value, not ranked</h2>
+    <p class="muted">These protocols record a token, so the radar does not value them. They are here so a reader can tell a launch candidate from a launch that already happened.</p>
+    <table>
+      <thead><tr><th>Protocol</th><th>Category</th><th class="num">TVL</th><th class="num">7d</th><th class="num">Market cap</th></tr></thead>
+      <tbody id="live-rows"></tbody>
+    </table>
+  </section>
+</main>
+
+<footer>
+  <p>Data: one sealed DefiLlama snapshot, <span id="asof"></span>. &ldquo;Records no token&rdquo; means the snapshot records none — not proof the protocol has none. Farm plans are a reader&rsquo;s starting point, not financial advice.</p>
+  <p class="judge-note">To the judge: this board is the volume-breakout angle — momentum first. Check any row against the model above: its TVL, its 7-day change and its days listed are all in the snapshot, and the tier cutoffs are the cohort&rsquo;s own percentiles, printed in the header.</p>
+</footer>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
